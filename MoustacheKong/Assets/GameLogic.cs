@@ -6,6 +6,9 @@ public class GameLogic : MonoBehaviour {
 	public Camera Camera2D;
 	public Camera Camera3D;
 
+	// Toggle gameMode 
+	private bool gameMode3D = false;
+
 	// Use this for initialization
 	void Start () {
 		// Defaults 2D camera
@@ -24,8 +27,13 @@ public class GameLogic : MonoBehaviour {
 	 **/
 	void FixedUpdate() {
 		if (Input.GetKeyDown(KeyCode.C)) {
-			Camera2D.enabled = !Camera2D.enabled;
-			Camera3D.enabled = !Camera3D.enabled;
+			gameMode3D = !gameMode3D;
+			if(gameMode3D) {
+				changeTo3D();
+			} else {
+				changeTo2D();
+			}
+
 		}
 	}
 
@@ -35,7 +43,10 @@ public class GameLogic : MonoBehaviour {
 	 * - Activates coliders on stairs
 	 **/
 	void changeTo2D() {
-
+		Camera2D.enabled = true;
+		Camera3D.enabled = false;
+//		thirdPersonController.enabled = false;
+		gameObject.GetComponent<CharacterController> ().enabled = false;
 	}
 
 
@@ -45,5 +56,9 @@ public class GameLogic : MonoBehaviour {
 	 * - Deactivates coliders on stairs
 	 */
 	void changeTo3D() {
+		Camera3D.enabled = true;
+		Camera2D.enabled = false;
+		Debug.Log("I'm attached to " + gameObject.name);
+		gameObject.GetComponent<CharacterController> ().enabled = true;
 	}
 }
