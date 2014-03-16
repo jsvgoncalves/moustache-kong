@@ -14,7 +14,8 @@ public class GameLogic : MonoBehaviour {
 		// Defaults 2D camera
 		Camera2D.enabled = true;
 		Camera3D.enabled = false;
-	
+	//	GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterController>().enabled = false;
+
 	}
 	
 	// Update is called once per frame
@@ -46,6 +47,7 @@ public class GameLogic : MonoBehaviour {
 		Camera2D.enabled = true;
 		Camera3D.enabled = false;
 //		thirdPersonController.enabled = false;
+		//GameObject.FindGameObjectWithTag ("Player").GetComponent(CharacterController).enabled = false;
 		gameObject.GetComponent<CharacterController> ().enabled = false;
 	}
 
