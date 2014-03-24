@@ -1,4 +1,5 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\HeroScript.cs">
     <Files>
@@ -6,6 +7,13 @@
       <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" Line="1" Column="1" />
       <File FileName="Assets\scripts\PlayerTracker.cs" Line="36" Column="1" />
       <File FileName="Assets\scripts\GameLogic.cs" Line="1" Column="1" />
+=======
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\HeroCameraScript.js">
+    <Files>
+      <File FileName="Assets\scripts\PlayerTracker.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\HeroCameraScript.js" Line="1" Column="1" />
+>>>>>>> f7f8edb4cd20404023607e8ba5aadc97d382d157
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

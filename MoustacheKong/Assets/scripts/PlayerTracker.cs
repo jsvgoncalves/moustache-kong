@@ -15,7 +15,7 @@ public class PlayerTracker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
+		
 		// Get the current platform
 		RaycastHit hit;
 		if (Physics.Raycast (transform.position + Vector3.up, Vector3.down, out hit, 10)) {
@@ -34,6 +34,7 @@ public class PlayerTracker : MonoBehaviour {
 		pos.y = player.transform.position.y + 2;
 		pos.z = player.transform.position.z;
 
+		pos.x = Mathf.Clamp (pos.x, -22, 21);
 		Quaternion rot = transform.rotation;
 		rot = Quaternion.Euler(0, dir * 90,0);
 
