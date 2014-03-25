@@ -49,7 +49,7 @@ public class BarrelScript : MonoBehaviour {
 		velocity.x = dir * gravityX.x;
 		velocity.z = 0;
 
-		velocity = Vector3.ClampMagnitude (velocity, maxSpeed);
+//		velocity = Vector3.ClampMagnitude (velocity, maxSpeed);
 		
 		transform.position += velocity * Time.deltaTime;
 	}
