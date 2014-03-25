@@ -24,7 +24,6 @@ public class PlayerTracker : MonoBehaviour {
 			} else if(hit.collider.gameObject.tag.Equals ("fwd")) {
 				dir = 1;
 			}
-			print (hit.collider.gameObject.tag);
 		}
 
 		Vector3 pos = transform.position;
