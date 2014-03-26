@@ -26,7 +26,9 @@ public class GameLogic : MonoBehaviour {
 		//	GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterController>().enabled = false;
 		
 		aspect = (float) Screen.width / (float) Screen.height;
-		ortho = Matrix4x4.Ortho(-orthographicSize * aspect, orthographicSize * aspect, -orthographicSize, orthographicSize, near, far);
+
+		ortho = Camera2D.projectionMatrix;
+			//Matrix4x4.Ortho(-orthographicSize * aspect, orthographicSize * aspect, -orthographicSize, orthographicSize, near, far);
 		perspective = Matrix4x4.Perspective(fov, aspect, near, far);
 	//	Camera2D.projectionMatrix = ortho;
 	}
