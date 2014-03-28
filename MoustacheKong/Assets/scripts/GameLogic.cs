@@ -67,6 +67,7 @@ public class GameLogic : MonoBehaviour {
 			} else {
 				changeTo2D();
 			}
+			
 		}
 	}
 	
@@ -82,6 +83,7 @@ public class GameLogic : MonoBehaviour {
 		//GameObject.FindGameObjectWithTag ("Player").GetComponent(CharacterController).enabled = false;
 		gameObject.GetComponent<CharacterController> ().enabled = false;
 	}
+	
 	
 	/**
 	 * Changes the game to 3D mode.
