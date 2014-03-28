@@ -1,5 +1,4 @@
 ﻿<Properties>
-<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 <<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\GameLogic.cs">
@@ -21,15 +20,6 @@
       <File FileName="Assets\scripts\GameLogic.cs" Line="21" Column="3" />
       <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" Line="133" Column="30" />
 >>>>>>> 26c9b8214277c3793010f5fc2d10272b24f4464c
-=======
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\BarrelScript.cs">
-    <Files>
-      <File FileName="Assets\scripts\BarrelScript.cs" Line="29" Column="27" />
-      <File FileName="Assets\scripts\PlayerTracker.cs" Line="1" Column="1" />
-      <File FileName="Assets\scripts\HeroCameraScript.js" Line="1" Column="1" />
-      <File FileName="Assets\scripts\HeroScript.cs" Line="62" Column="29" />
->>>>>>> parent of f312774... Ladder Colliders and Triggers
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
