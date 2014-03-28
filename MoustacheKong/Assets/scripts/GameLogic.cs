@@ -14,6 +14,9 @@ public class GameLogic : MonoBehaviour {
 		// Defaults 2D camera
 		Camera2D.enabled = true;
 		Camera3D.enabled = false;
+//		GameObject barrel = (GameObject) Instantiate (Resources.Load ("StandardBarrel"));
+//
+//		Debug.Log (barrel.GetInstanceID ());
 	//	GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterController>().enabled = false;
 
 	}

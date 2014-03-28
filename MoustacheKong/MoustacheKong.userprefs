@@ -1,11 +1,13 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\BarrelScript.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js">
     <Files>
-      <File FileName="Assets\scripts\BarrelScript.cs" Line="29" Column="27" />
-      <File FileName="Assets\scripts\PlayerTracker.cs" Line="1" Column="1" />
-      <File FileName="Assets\scripts\HeroCameraScript.js" Line="1" Column="1" />
+      <File FileName="Assets\scripts\BarrelScript.cs" Line="40" Column="4" />
+      <File FileName="Assets\scripts\PlayerTracker.cs" Line="36" Column="6" />
+      <File FileName="Assets\scripts\HeroCameraScript.js" Line="10" Column="54" />
       <File FileName="Assets\scripts\HeroScript.cs" Line="62" Column="29" />
+      <File FileName="Assets\scripts\GameLogic.cs" Line="21" Column="3" />
+      <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\ThirdPersonController.js" Line="133" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

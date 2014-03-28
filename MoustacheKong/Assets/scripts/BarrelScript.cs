@@ -42,6 +42,7 @@ public class BarrelScript : MonoBehaviour {
 			if(hit.distance > 0.5 ) {
 				velocity.y = gravity.y;
 			}
+
 //			Debug.Log(hit.distance);
 //			Debug.Log(hit.collider.gameObject.tag);
 		}
