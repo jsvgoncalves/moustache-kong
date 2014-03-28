@@ -6,7 +6,9 @@ using System.Collections;
 [AddComponentMenu("Third Person Player/Third Person Controller")]
 
 public class HeroScript : MonoBehaviour {
-	
+
+	// Controlo das Ladders
+	private bool touchingLadder = false;
 	public float rotationDamping = 30f;
 	public float runSpeed = 5f;
 	public int gravity = 5;
@@ -21,24 +23,53 @@ public class HeroScript : MonoBehaviour {
 	{
 		controller = (CharacterController)GetComponent(typeof(CharacterController));
 	}
-	float UpdateMovement()
+	void UpdateMovement()
 	{
+
 		// Movement
 		float z = -Input.GetAxis("Horizontal");
 		float x = Input.GetAxis("Vertical");
 		
 		Vector3 inputVec = new Vector3(x, 0, z);
 		inputVec *= runSpeed;
-		
-		controller.Move((inputVec + Vector3.up * -gravity + new Vector3(0, verticalVel, 0)) * Time.deltaTime);
-		
-		// Rotation
-		if (inputVec != Vector3.zero)
-			transform.rotation = Quaternion.Slerp(transform.rotation, 
-			                                      Quaternion.LookRotation(inputVec), 
-			                                      Time.deltaTime * rotationDamping);
-		
-		return inputVec.magnitude;
+
+		// Check Ladder
+		if (touchingLadder) {
+				inputVec = new Vector3 (0, 0, 0);
+				Debug.Log ("Touching Ladder");
+				if (x == 1) { // Going up
+					if(!canJump && controller.isGrounded){ // Encontra-se no topo
+						controller.Move(new Vector3(0f, 0.5f, 0f));
+					}
+					else{ // Encontra-se a meio da escada
+						canJump = false;
+						//	verticalVel += runSpeed;
+						//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+						controller.Move(new Vector3(0f, 0.09f, 0f));
+					}
+			} else if (x == -1) { // Going down
+				if (!controller.isGrounded) {
+						canJump = false;
+					//	verticalVel -= runSpeed;
+					//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+						controller.Move(new Vector3(0f, -0.09f, 0f));		
+				} else { // Already on Floor
+						canJump = true;
+						touchingLadder = false;
+						Debug.Log ("IS GROUNDED");
+					}
+				}
+		} 
+		else {
+				controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+
+				// Rotation
+				if (inputVec != Vector3.zero)
+						transform.rotation = Quaternion.Slerp (transform.rotation, 
+	                                      Quaternion.LookRotation (inputVec), 
+	                                      Time.deltaTime * rotationDamping);
+		}
+
 	}
 	void Update()
 	{
@@ -59,9 +90,23 @@ public class HeroScript : MonoBehaviour {
 		}
 		
 		// Actually move the character
-		moveSpeed = UpdateMovement();  
-		
+	//	moveSpeed = UpdateMovement();  
+		UpdateMovement();
+
 		if ( controller.isGrounded )
 			verticalVel = 0f;// Remove any persistent velocity after landing
+	}
+
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == "Ladder") {
+			touchingLadder = true;
+		}
+	}
+	
+	void OnTriggerExit(Collider other) {
+		if (other.tag == "Ladder") {
+			touchingLadder = false;
+			Debug.Log ("EXIT LADDER");
+		}
 	}
 }
