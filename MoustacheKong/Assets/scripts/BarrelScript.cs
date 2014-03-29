@@ -29,10 +29,6 @@ public class BarrelScript : MonoBehaviour {
 	
 	void FixedUpdate() {
 
-		// Destroy the barrel when it reaches 0.5y
-		if(transform.position.y <= 0.5) {
-			Destroy (gameObject);
-		}
 		velocity.y = 0;
 		float y = transform.position.y;
 		// Get the current platform
@@ -68,7 +64,18 @@ public class BarrelScript : MonoBehaviour {
 		transform.position = newPos;
 	}
 
-//	void OnTriggerEnter (Collider buh) {
+	/**
+	 * Barrel is destroyed on Trigger
+	 */
+	void OnTriggerEnter(Collider other) {
+		// Destroy the barrel when it reaches 0.5y
+		if (other.tag == "Barrels_Death") {
+			Destroy (gameObject);
+		}
 //		Debug.Log ("Buh");
-//	}
+	}
+
+	void OnTriggerExit(Collider other) {
+//		Debug.Log ("EXIT LADDER");
+	}
 }
