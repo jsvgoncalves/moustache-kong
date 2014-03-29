@@ -78,7 +78,7 @@ public class GameLogic : MonoBehaviour {
 		Camera3D.enabled = false;
 		//		thirdPersonController.enabled = false;
 		//GameObject.FindGameObjectWithTag ("Player").GetComponent(CharacterController).enabled = false;
-		gameObject.GetComponent<CharacterController> ().enabled = false;
+	//	gameObject.GetComponent<CharacterController> ().enabled = false;
 	}
 	
 	/**
@@ -90,7 +90,7 @@ public class GameLogic : MonoBehaviour {
 		Camera3D.enabled = true;
 		Camera2D.enabled = false;
 		Debug.Log("I'm attached to " + gameObject.name);
-		gameObject.GetComponent<CharacterController> ().enabled = true;
+	//	gameObject.GetComponent<CharacterController> ().enabled = true;
 	}
 	
 	bool MaxAnimationTimeReached(){

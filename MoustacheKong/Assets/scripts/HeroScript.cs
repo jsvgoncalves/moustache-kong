@@ -13,6 +13,12 @@ public class HeroScript : MonoBehaviour {
 	public float runSpeed = 5f;
 	public int gravity = 5;
 	public float jumpSpeed = 10;
+
+	// Controlo do personagem
+	public bool rotatedRight = true;
+	public GameObject Hero;
+	public GameObject HeroInverse;
+	//	private Quaternion originalPosition, alternatePosition;
 	
 	bool canJump;
 	float moveSpeed;
@@ -22,54 +28,83 @@ public class HeroScript : MonoBehaviour {
 	void Start()
 	{
 		controller = (CharacterController)GetComponent(typeof(CharacterController));
+
+		/*
+		originalPosition = GameObject.FindGameObjectWithTag ("Hero").transform.rotation;
+		alternatePosition = originalPosition;
+		alternatePosition.Set(originalPosition.x, originalPosition.y, -originalPosition.z, originalPosition.w);
+		*/
 	}
+
 	void UpdateMovement()
 	{
-
 		// Movement
 		float z = -Input.GetAxis("Horizontal");
 		float x = Input.GetAxis("Vertical");
+		// Movimento 3D
+		if (GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 		
-		Vector3 inputVec = new Vector3(x, 0, z);
-		inputVec *= runSpeed;
+				Vector3 inputVec = new Vector3 (x, 0, z);
+				inputVec *= runSpeed;
 
-		// Check Ladder
-		if (touchingLadder) {
-				inputVec = new Vector3 (0, 0, 0);
-				Debug.Log ("Touching Ladder");
-				if (x == 1) { // Going up
-					if(!canJump && controller.isGrounded){ // Encontra-se no topo
-						controller.Move(new Vector3(0f, 0.5f, 0f));
+				// Check Ladder
+				if (touchingLadder) {
+						inputVec = new Vector3 (0, 0, 0);
+						Debug.Log ("Touching Ladder");
+						if (x == 1) { // Going up
+								if (!canJump && controller.isGrounded) { // Encontra-se no topo
+										controller.Move (new Vector3 (0f, 0.5f, 0f));
+								} else { // Encontra-se a meio da escada
+										canJump = false;
+										//	verticalVel += runSpeed;
+										//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+										controller.Move (new Vector3 (0f, 0.09f, 0f));
+								}
+						} else if (x == -1) { // Going down
+								if (!controller.isGrounded) {
+										canJump = false;
+										//	verticalVel -= runSpeed;
+										//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+										controller.Move (new Vector3 (0f, -0.09f, 0f));		
+								} else { // Already on Floor
+										canJump = true;
+										touchingLadder = false;
+										Debug.Log ("IS GROUNDED");
+								}
+						}
+				} else { // Movimento normal
+						controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+
+					if(z == -1 && !rotatedRight){
+						rotatedRight = true;
+						Hero.SetActive(true);
+						HeroInverse.SetActive(false);
+				//	GameObject.FindGameObjectWithTag ("Hero_Inverse").GetComponent
+			//		GameObject.FindGameObjectWithTag ("Hero").SetActive(true);
 					}
-					else{ // Encontra-se a meio da escada
-						canJump = false;
-						//	verticalVel += runSpeed;
-						//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
-						controller.Move(new Vector3(0f, 0.09f, 0f));
-					}
-			} else if (x == -1) { // Going down
-				if (!controller.isGrounded) {
-						canJump = false;
-					//	verticalVel -= runSpeed;
-					//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
-						controller.Move(new Vector3(0f, -0.09f, 0f));		
-				} else { // Already on Floor
-						canJump = true;
-						touchingLadder = false;
-						Debug.Log ("IS GROUNDED");
-					}
+					else if (z == 1 && rotatedRight){
+						rotatedRight = false;
+						HeroInverse.SetActive(true);
+						Hero.SetActive(false);
 				}
-		} 
-		else {
-				controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
-
-				// Rotation
-				if (inputVec != Vector3.zero)
-						transform.rotation = Quaternion.Slerp (transform.rotation, 
-	                                      Quaternion.LookRotation (inputVec), 
-	                                      Time.deltaTime * rotationDamping);
+						// Rotation
+			/*			if (inputVec != Vector3.zero)
+								transform.rotation = Quaternion.Slerp (transform.rotation, 
+              Quaternion.LookRotation (inputVec), 
+              Time.deltaTime * rotationDamping);
+			*/	}
+		} else { // Movimento 2D
+			if(z == -1){
+				Debug.Log (this.transform.position.x);
+			//	this.transform.position = new Vector3(this.transform.position.x + 1, this.transform.position.y,
+			//	                            this.transform.position.z);
+				controller.SimpleMove(new Vector3(runSpeed*2, 0f, 0f));
+			}
+			else if(z == 1){
+				Debug.Log ("LEFT");
+				controller.SimpleMove(new Vector3(-runSpeed*2, 0f, 0f));
+			}
 		}
-
 	}
 	void Update()
 	{
