@@ -33,7 +33,7 @@ public class PlayerTracker : MonoBehaviour {
 		pos.y = player.transform.position.y + 2;
 		pos.z = player.transform.position.z;
 
-		pos.x = Mathf.Clamp (pos.x, -22, 21);
+		pos.x = Mathf.Clamp (pos.x, -22, 29);
 		Quaternion rot = transform.rotation;
 		rot = Quaternion.Euler(0, dir * 90,0);
 

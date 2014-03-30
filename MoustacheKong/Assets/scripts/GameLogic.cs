@@ -76,11 +76,12 @@ public class GameLogic : MonoBehaviour {
 	void changeTo2D() {
 		Camera2D.enabled = true;
 		Camera3D.enabled = false;
+		GameObject.FindGameObjectWithTag ("Player").GetComponent <HeroScript> ().setHero2D (true);
 		//		thirdPersonController.enabled = false;
 		//GameObject.FindGameObjectWithTag ("Player").GetComponent(CharacterController).enabled = false;
 	//	gameObject.GetComponent<CharacterController> ().enabled = false;
 	}
-	
+
 	/**
 	 * Changes the game to 3D mode.
 	 * - Toggle the camera to perspective
@@ -89,6 +90,7 @@ public class GameLogic : MonoBehaviour {
 	void changeTo3D() {
 		Camera3D.enabled = true;
 		Camera2D.enabled = false;
+		GameObject.FindGameObjectWithTag ("Player").GetComponent <HeroScript> ().setHeroDirection (0);
 		Debug.Log("I'm attached to " + gameObject.name);
 	//	gameObject.GetComponent<CharacterController> ().enabled = true;
 	}
