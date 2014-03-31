@@ -55,8 +55,7 @@ public class HeroScript : MonoBehaviour
 				float z = -Input.GetAxis ("Horizontal");
 				float x = Input.GetAxis ("Vertical");
 				
-				checkRunningAnimation (z, x);
-						
+				checkRunningAnimation (z, x);		
 					
 				Vector3 inputVec;
 				//	timeAtStartOfMovement = Time.time;
@@ -87,6 +86,13 @@ public class HeroScript : MonoBehaviour
 				} else {
 						// Movimento 3D
 						if (GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
+								// Verifica se a posiçao e invertida
+								if (GameObject.FindGameObjectWithTag ("Player").
+								GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == -1) {
+										x *= -1;
+										z *= -1;
+								}
+								
 								inputVec = new Vector3 (x, 0, z) * runSpeed * 2;
 	
 								// Check Ladder
@@ -161,14 +167,16 @@ public class HeroScript : MonoBehaviour
 	
 		void OnTriggerEnter (Collider other)
 		{
-				if (other.tag == "Ladder") {
+				if (other.tag == "Ladder" && GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
+						touchingLadder = true;
+				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				}
 		}
 	
 		void OnTriggerExit (Collider other)
 		{
-				if (other.tag == "Ladder") {
+				if (other.tag == "Ladder" || other.tag == "Ladder2D") {
 						touchingLadder = false;
 						Debug.Log ("EXIT LADDER");
 				}
