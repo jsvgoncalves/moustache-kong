@@ -14,11 +14,13 @@ public class HeroScript : MonoBehaviour
 		public float runSpeed = 5f;
 		public int gravity = 5;
 		public float jumpSpeed = 10;
+		private bool lastLadderMovementUp = false;
 	
 		// Controlo do personagem
-		public bool tiltedRightIn3D = true;
+		public bool tiltedtoCamIn3D = true;
 		public GameObject Hero2D, Hero2DInverse;
-		public GameObject HeroTiltedRight, HeroTiltedRightBackwards, HeroTiltedLeft, HeroTiltedLeftBackwards;
+		public GameObject HeroTiltedRight, HeroTiltedRightBackwards, HeroTiltedLeft, HeroTiltedLeftBackwards, 
+				InvertedDragonTiltedLeft, InvertedDragonTiltedRight, InvertedDragonTiltedLeftBackwards, InvertedDragonTiltedRightBackwards;
 		public bool facingRight = true, facingBackwards = false;
 		private int heroDirection = 0;
 		// Variaveis que guardam as posicoes (rotacoes) originais do Hero em 3D
@@ -63,8 +65,9 @@ public class HeroScript : MonoBehaviour
 						inputVec = new Vector3 (0, 0, 0);
 						Debug.Log ("Touching Ladder");
 						if (x == 1) { // Going up
+								lastLadderMovementUp = true;
 								if (!canJump && controller.isGrounded) { // Encontra-se no topo
-										controller.Move (new Vector3 (0f, 0.5f, 0f));
+										controller.Move ((new Vector3 (0f, 5f, 50f) + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
 								} else { // Encontra-se a meio da escada
 										canJump = false;
 										//	verticalVel += runSpeed;
@@ -72,6 +75,7 @@ public class HeroScript : MonoBehaviour
 										controller.Move (new Vector3 (0f, 0.09f, 0f));
 								}
 						} else if (x == -1) { // Going down
+								lastLadderMovementUp = false;
 								if (!controller.isGrounded) {
 										canJump = false;
 										//	verticalVel -= runSpeed;
@@ -99,14 +103,14 @@ public class HeroScript : MonoBehaviour
 								{ // Movimento normal
 										controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
 	
-										if (z == -1 && !tiltedRightIn3D) {
+										if (z == -1 && !tiltedtoCamIn3D) {
 												if (facingBackwards)
 														setHeroDirection (2);
 												else
 														setHeroDirection (0);
 												//	GameObject.FindGameObjectWithTag ("Hero_Inverse").GetComponent
 												//		GameObject.FindGameObjectWithTag ("Hero").SetActive(true);
-										} else if (z == 1 && tiltedRightIn3D) {
+										} else if (z == 1 && tiltedtoCamIn3D) {
 												if (facingBackwards)
 														setHeroDirection (3);
 												else
@@ -114,12 +118,12 @@ public class HeroScript : MonoBehaviour
 										}
 	
 										if (x == -1 && !facingBackwards) {
-												if (tiltedRightIn3D)
+												if (tiltedtoCamIn3D)
 														setHeroDirection (2);
 												else
 														setHeroDirection (3);
 										} else if (x == 1 && facingBackwards) {
-												if (tiltedRightIn3D)
+												if (tiltedtoCamIn3D)
 														setHeroDirection (0);
 												else
 														setHeroDirection (1);
@@ -179,6 +183,16 @@ public class HeroScript : MonoBehaviour
 				if (other.tag == "Ladder" || other.tag == "Ladder2D") {
 						touchingLadder = false;
 						Debug.Log ("EXIT LADDER");
+						
+						if (lastLadderMovementUp && other.tag == "Ladder") {
+								if (GameObject.FindGameObjectWithTag ("Player").
+					   			GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == -1) {
+										controller.Move (new Vector3 (-50f, 100f, 0f) * Time.deltaTime);
+								} else {
+										controller.Move (new Vector3 (50f, 100f, 0f) * Time.deltaTime);
+								}
+						}
+			
 				}
 		}
 	
@@ -191,6 +205,8 @@ public class HeroScript : MonoBehaviour
 								Hero2DInverse.SetActive (true);
 						HeroTiltedRight.SetActive (false);
 						HeroTiltedLeft.SetActive (false);
+						HeroTiltedRightBackwards.SetActive (false);
+						HeroTiltedLeftBackwards.SetActive (false);
 				} else {
 						Hero2D.SetActive (false);
 						Hero2DInverse.SetActive (false);
@@ -203,7 +219,7 @@ public class HeroScript : MonoBehaviour
 	
 		/**
 	* @params: dir
-	* 	0 = tilted right
+	* 	0 = tilted right (or left in inverse)
 	*  1 = tilted left
 	* 	2 = tilted right (from camera perspective) backwards
 	*  3 = tilted left (from camera perspective) backwards
@@ -212,35 +228,95 @@ public class HeroScript : MonoBehaviour
 		{
 				Hero2D.SetActive (false);
 				Hero2DInverse.SetActive (false);
-	
-				if (dir == 0) {
-						tiltedRightIn3D = true;
-						facingBackwards = false;
-						HeroTiltedRight.SetActive (true);
-						HeroTiltedLeft.SetActive (false);
-						HeroTiltedRightBackwards.SetActive (false);
-						HeroTiltedLeftBackwards.SetActive (false);
-				} else if (dir == 1) {
-						tiltedRightIn3D = false;
-						facingBackwards = false;
-						HeroTiltedRight.SetActive (false);
-						HeroTiltedLeft.SetActive (true);
-						HeroTiltedRightBackwards.SetActive (false);
-						HeroTiltedLeftBackwards.SetActive (false);
-				} else if (dir == 2) {
-						facingBackwards = true;
-						tiltedRightIn3D = true;
-						HeroTiltedRight.SetActive (false);
-						HeroTiltedLeft.SetActive (false);
-						HeroTiltedRightBackwards.SetActive (true);
-						HeroTiltedLeftBackwards.SetActive (false);
-				} else if (dir == 3) {
-						facingBackwards = true;
-						tiltedRightIn3D = false;
-						HeroTiltedRight.SetActive (false);
-						HeroTiltedLeft.SetActive (false);
-						HeroTiltedRightBackwards.SetActive (false);
-						HeroTiltedLeftBackwards.SetActive (true);
+				
+				if (GameObject.FindGameObjectWithTag ("Player").
+				    GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == 1) {
+					
+						if (dir == 0) {
+								tiltedtoCamIn3D = true;
+								facingBackwards = false;
+								HeroTiltedRight.SetActive (true);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (false);
+						} else if (dir == 1) {
+								tiltedtoCamIn3D = false;
+								facingBackwards = false;
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (true);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (false);
+						} else if (dir == 2) {
+								facingBackwards = true;
+								tiltedtoCamIn3D = true;
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (true);
+								HeroTiltedLeftBackwards.SetActive (false);
+						} else if (dir == 3) {
+								facingBackwards = true;
+								tiltedtoCamIn3D = false;
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (true);
+						}
+				} else if (GameObject.FindGameObjectWithTag ("Player").
+				             GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == -1) {
+						if (dir == 0) {
+								tiltedtoCamIn3D = true;
+								facingBackwards = false;
+								
+								InvertedDragonTiltedLeft.SetActive (false);
+								InvertedDragonTiltedRight.SetActive (false);
+								InvertedDragonTiltedLeftBackwards.SetActive (true);
+								InvertedDragonTiltedRightBackwards.SetActive (false);
+								
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (false);
+						} else if (dir == 1) {
+								tiltedtoCamIn3D = false;
+								facingBackwards = false;
+								
+								InvertedDragonTiltedLeft.SetActive (false);
+								InvertedDragonTiltedRight.SetActive (false);
+								InvertedDragonTiltedLeftBackwards.SetActive (false);
+								InvertedDragonTiltedRightBackwards.SetActive (true);
+				
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (false);
+						} else if (dir == 2) {
+								facingBackwards = true;
+								tiltedtoCamIn3D = true;
+								
+				
+								InvertedDragonTiltedLeft.SetActive (true);
+								InvertedDragonTiltedRight.SetActive (false);
+								InvertedDragonTiltedLeftBackwards.SetActive (false);
+								InvertedDragonTiltedRightBackwards.SetActive (false);
+				
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (false);
+						} else if (dir == 3) {
+								facingBackwards = true;
+								tiltedtoCamIn3D = false;
+								
+								InvertedDragonTiltedLeft.SetActive (false);
+								InvertedDragonTiltedRight.SetActive (true);
+								InvertedDragonTiltedLeftBackwards.SetActive (false);
+								InvertedDragonTiltedRightBackwards.SetActive (false);
+				
+								HeroTiltedRight.SetActive (false);
+								HeroTiltedLeft.SetActive (false);
+								HeroTiltedRightBackwards.SetActive (false);
+								HeroTiltedLeftBackwards.SetActive (false);
+						}
 				}
 		}
 		
