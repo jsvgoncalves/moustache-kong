@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: bf990ef241a1b4c83b95754dec7223f5
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: MsPacman
+    100004: MsPacman_bezel
+    100006: MsPacman_buttons
+    100008: MsPacman_coin_door
+    100010: MsPacman_coin_frame
+    100012: MsPacman_coin_lock
+    100014: MsPacman_coin_lt_1
+    100016: MsPacman_coin_lt_2
+    100018: MsPacman_CP
+    100020: MsPacman_CRT
+    100022: MsPacman_front
+    100024: MsPacman_joystick
+    100026: MsPacman_marquee
+    100028: MsPacman_molding
+    100030: MsPacman_sides
+    100032: MsPacman_trim
+    400000: //RootNode
+    400002: MsPacman
+    400004: MsPacman_bezel
+    400006: MsPacman_buttons
+    400008: MsPacman_coin_door
+    400010: MsPacman_coin_frame
+    400012: MsPacman_coin_lock
+    400014: MsPacman_coin_lt_1
+    400016: MsPacman_coin_lt_2
+    400018: MsPacman_CP
+    400020: MsPacman_CRT
+    400022: MsPacman_front
+    400024: MsPacman_joystick
+    400026: MsPacman_marquee
+    400028: MsPacman_molding
+    400030: MsPacman_sides
+    400032: MsPacman_trim
+    2300000: MsPacman
+    2300002: MsPacman_bezel
+    2300004: MsPacman_buttons
+    2300006: MsPacman_coin_door
+    2300008: MsPacman_coin_frame
+    2300010: MsPacman_coin_lock
+    2300012: MsPacman_coin_lt_1
+    2300014: MsPacman_coin_lt_2
+    2300016: MsPacman_CP
+    2300018: MsPacman_CRT
+    2300020: MsPacman_front
+    2300022: MsPacman_joystick
+    2300024: MsPacman_marquee
+    2300026: MsPacman_molding
+    2300028: MsPacman_sides
+    2300030: MsPacman_trim
+    3300000: MsPacman
+    3300002: MsPacman_bezel
+    3300004: MsPacman_buttons
+    3300006: MsPacman_coin_door
+    3300008: MsPacman_coin_frame
+    3300010: MsPacman_coin_lock
+    3300012: MsPacman_coin_lt_1
+    3300014: MsPacman_coin_lt_2
+    3300016: MsPacman_CP
+    3300018: MsPacman_CRT
+    3300020: MsPacman_front
+    3300022: MsPacman_joystick
+    3300024: MsPacman_marquee
+    3300026: MsPacman_molding
+    3300028: MsPacman_sides
+    3300030: MsPacman_trim
+    4300000: MsPacman_front
+    4300002: MsPacman_marquee
+    4300004: MsPacman_bezel
+    4300006: MsPacman_CP
+    4300008: MsPacman_sides
+    4300010: MsPacman
+    4300012: MsPacman_molding
+    4300014: MsPacman_buttons
+    4300016: MsPacman_coin_door
+    4300018: MsPacman_coin_frame
+    4300020: MsPacman_coin_lt_1
+    4300022: MsPacman_coin_lt_2
+    4300024: MsPacman_coin_lock
+    4300026: MsPacman_joystick
+    4300028: MsPacman_CRT
+    4300030: MsPacman_trim
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
