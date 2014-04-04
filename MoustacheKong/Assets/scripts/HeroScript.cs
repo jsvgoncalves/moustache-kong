@@ -23,6 +23,7 @@ public class HeroScript : MonoBehaviour
 				InvertedDragonTiltedLeft, InvertedDragonTiltedRight, InvertedDragonTiltedLeftBackwards, InvertedDragonTiltedRightBackwards;
 		public bool facingRight = true, facingBackwards = false;
 		private int heroDirection = 0;
+		private Vector3 original3DPosition;
 		// Variaveis que guardam as posicoes (rotacoes) originais do Hero em 3D
 		//	private Quaternion originalTiltedRight, originalTiltedLeft, backwardsTiltedLeft, backwardsTiltedRight;
 		//	private float timeAtStartOfJump = 0.0f, timeAtStartOfMovement = 0.0f;
@@ -37,18 +38,19 @@ public class HeroScript : MonoBehaviour
 		void Start ()
 		{
 				controller = (CharacterController)GetComponent (typeof(CharacterController));
+				original3DPosition = GameObject.FindGameObjectWithTag ("Player").transform.position;
 	
 				/*	originalTiltedRight = HeroTiltedRight.transform.rotation;
-	originalTiltedLeft = HeroTiltedLeft.transform.rotation;
-	backwardsTiltedLeft = originalTiltedRight;
-	backwardsTiltedLeft.Set (0, 205, 15.0f, originalTiltedRight.w);
-	backwardsTiltedRight = originalTiltedLeft;
-	backwardsTiltedRight.z = 160.0f;
-	/*
-	originalPosition = GameObject.FindGameObjectWithTag ("Hero").transform.rotation;
-	alternatePosition = originalPosition;
-	alternatePosition.Set(originalPosition.x, originalPosition.y, -originalPosition.z, originalPosition.w);
-	*/
+				originalTiltedLeft = HeroTiltedLeft.transform.rotation;
+				backwardsTiltedLeft = originalTiltedRight;
+				backwardsTiltedLeft.Set (0, 205, 15.0f, originalTiltedRight.w);
+				backwardsTiltedRight = originalTiltedLeft;
+				backwardsTiltedRight.z = 160.0f;
+				/*
+				originalPosition = GameObject.FindGameObjectWithTag ("Hero").transform.rotation;
+				alternatePosition = originalPosition;
+				alternatePosition.Set(originalPosition.x, originalPosition.y, -originalPosition.z, originalPosition.w);
+				*/
 		}
 	
 		void UpdateMovement ()
@@ -183,31 +185,47 @@ public class HeroScript : MonoBehaviour
 				if (other.tag == "Ladder" || other.tag == "Ladder2D") {
 						touchingLadder = false;
 						Debug.Log ("EXIT LADDER");
-						
-						if (lastLadderMovementUp && other.tag == "Ladder") {
+					
+						if (lastLadderMovementUp) {
 								if (GameObject.FindGameObjectWithTag ("Player").
-					   			GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == -1) {
+							    GetComponent<GameLogic> ().Camera3D.enabled && GameObject.FindGameObjectWithTag ("Player").
+							   					GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == -1) {
 										controller.Move (new Vector3 (-50f, 100f, 0f) * Time.deltaTime);
-								} else {
+								} else if (GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 										controller.Move (new Vector3 (50f, 100f, 0f) * Time.deltaTime);
+								} else { // 2D Movement
+										if (facingRight) {
+												controller.Move (new Vector3 (-50f, 100f, 0f) * Time.deltaTime);
+										} else {
+												controller.Move (new Vector3 (50f, 100f, 0f) * Time.deltaTime);
+										}
 								}
 						}
-			
 				}
 		}
+	
 	
 		public void setHero2D (bool b)
 		{
 				if (b) {
+
 						if (facingRight)
 								Hero2D.SetActive (true);
 						else
 								Hero2DInverse.SetActive (true);
+								
 						HeroTiltedRight.SetActive (false);
 						HeroTiltedLeft.SetActive (false);
 						HeroTiltedRightBackwards.SetActive (false);
 						HeroTiltedLeftBackwards.SetActive (false);
+						
+						InvertedDragonTiltedLeft.SetActive (false);
+						InvertedDragonTiltedRight.SetActive (false);
+						InvertedDragonTiltedLeftBackwards.SetActive (false);
+						InvertedDragonTiltedRightBackwards.SetActive (false);
 				} else {
+						GameObject.FindGameObjectWithTag ("Player").transform.position = original3DPosition;
+					
 						Hero2D.SetActive (false);
 						Hero2DInverse.SetActive (false);
 						if (facingRight)
@@ -228,7 +246,7 @@ public class HeroScript : MonoBehaviour
 		{
 				Hero2D.SetActive (false);
 				Hero2DInverse.SetActive (false);
-				
+								
 				if (GameObject.FindGameObjectWithTag ("Player").
 				    GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == 1) {
 					
@@ -327,5 +345,18 @@ public class HeroScript : MonoBehaviour
 								animation.Play ("run");
 				} else
 						animation.Play ("idle");
+		}
+		
+		public void set2DPositionZ ()
+		{
+				original3DPosition = GameObject.FindGameObjectWithTag ("Player").transform.position;
+				GameObject.FindGameObjectWithTag ("Player").transform.position = new Vector3 (original3DPosition.x, original3DPosition.y, 3.0f);
+		}
+	
+		public void setBackup3DPositionZ ()
+		{
+				Vector3 pos = GameObject.FindGameObjectWithTag ("Player").transform.position;
+				GameObject.FindGameObjectWithTag ("Player").transform.position = new Vector3 (pos.x, 
+		                                   pos.y, original3DPosition.z);
 		}
 }
