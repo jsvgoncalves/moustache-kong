@@ -94,9 +94,6 @@ public class BarrelScript : MonoBehaviour {
 		// Destroy the barrel when it reaches 0.5y
 		if (other.tag == "Barrels_Death") {
 			Destroy (gameObject);
-		} else if( other.tag == "Player") {
-			GameObject p = GameObject.FindGameObjectWithTag ("Player");
-			p.SendMessage ("barrelHit", 1);
 		}
 //		Debug.Log ("Buh");
 	}
