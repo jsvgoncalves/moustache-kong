@@ -11,6 +11,8 @@ public class BarrelScript : MonoBehaviour {
 	public Vector3 jumpVelocity;
 	public float maxSpeed = 5f;
 
+	public GameObject player;
+
 	bool stupidFlag = false;
 	
 	// Used to calculate the movement direction
@@ -20,6 +22,23 @@ public class BarrelScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Choose a random lane to start?
+	}
+
+	/// <summary>
+	/// Sets the lane.
+	/// </summary>
+	/// <param name="lane">Lane.</param>
+	void setLane(int lane) {
+		Vector3 newPosition = transform.position;
+		//TODO : Set the appropriate coordinates.
+		if (lane == 1) {
+			newPosition.z = -2;
+		} else if (lane == 2) {
+			newPosition.z = 3;
+		} else if (lane == 3) {
+			newPosition.z = 1;
+		}
+		transform.position = newPosition;
 	}
 	
 	// Update is called once per frame
@@ -71,6 +90,9 @@ public class BarrelScript : MonoBehaviour {
 		// Destroy the barrel when it reaches 0.5y
 		if (other.tag == "Barrels_Death") {
 			Destroy (gameObject);
+		} else if( other.tag == "Player") {
+			Debug.Log("I hit the player, yo.");
+			//player.SendMessage ("barrelHit", 1.0);
 		}
 //		Debug.Log ("Buh");
 	}
