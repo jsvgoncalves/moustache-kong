@@ -5,35 +5,36 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController))]
 [AddComponentMenu("Third Person Player/Third Person Controller")]
 	
-public class HeroScript : MonoBehaviour
-{
-	
-		// Controlo das Ladders
-		private bool touchingLadder = false;
-		public float rotationDamping = 30f;
-		public float runSpeed = 5f;
-		public int gravity = 5;
-		public float jumpSpeed = 10;
-		private bool lastLadderMovementUp = false;
-		private bool charOnLadder = false;
-	
-		// Controlo do personagem
-		public bool tiltedtoCamIn3D = true;
-		public GameObject Hero2D, Hero2DInverse;
-		public GameObject HeroTiltedRight, HeroTiltedRightBackwards, HeroTiltedLeft, HeroTiltedLeftBackwards, 
-				InvertedDragonTiltedLeft, InvertedDragonTiltedRight, InvertedDragonTiltedLeftBackwards, InvertedDragonTiltedRightBackwards;
-		public bool facingRight = true, facingBackwards = false;
-		private int heroDirection = 0;
-		private Vector3 original3DPosition;
-		// Variaveis que guardam as posicoes (rotacoes) originais do Hero em 3D
-		//	private Quaternion originalTiltedRight, originalTiltedLeft, backwardsTiltedLeft, backwardsTiltedRight;
-		//	private float timeAtStartOfJump = 0.0f, timeAtStartOfMovement = 0.0f;
-		//	private Quaternion originalPosition, alternatePosition;
-	
-		bool canJump, isJumping = false;
-	
-		float moveSpeed;
-		float verticalVel;  // Used for continuing momentum while in air
+public class HeroScript : MonoBehaviour {
+
+	private int score = 0;
+
+	// Controlo das Ladders
+	private bool touchingLadder = false;
+	public float rotationDamping = 30f;
+	public float runSpeed = 5f;
+	public int gravity = 5;
+	public float jumpSpeed = 10;
+	private bool lastLadderMovementUp = false;
+	private bool charOnLadder = false;
+
+	// Controlo do personagem
+	public bool tiltedtoCamIn3D = true;
+	public GameObject Hero2D, Hero2DInverse;
+	public GameObject HeroTiltedRight, HeroTiltedRightBackwards, HeroTiltedLeft, HeroTiltedLeftBackwards, 
+			InvertedDragonTiltedLeft, InvertedDragonTiltedRight, InvertedDragonTiltedLeftBackwards, InvertedDragonTiltedRightBackwards;
+	public bool facingRight = true, facingBackwards = false;
+	private int heroDirection = 0;
+	private Vector3 original3DPosition;
+	// Variaveis que guardam as posicoes (rotacoes) originais do Hero em 3D
+	//	private Quaternion originalTiltedRight, originalTiltedLeft, backwardsTiltedLeft, backwardsTiltedRight;
+	//	private float timeAtStartOfJump = 0.0f, timeAtStartOfMovement = 0.0f;
+	//	private Quaternion originalPosition, alternatePosition;
+
+	bool canJump, isJumping = false;
+
+	float moveSpeed;
+	float verticalVel;  // Used for continuing momentum while in air
 		CharacterController controller;
 	
 		void Start ()
@@ -369,5 +370,9 @@ public class HeroScript : MonoBehaviour
 
 	void barrelHit(int hit) {
 		Application.LoadLevel("GUI");
+	}
+
+	void jumpedBarrel(int score) {
+		this.score += score;
 	}
 }
