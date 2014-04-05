@@ -319,7 +319,6 @@ public class HeroScript : MonoBehaviour
 								facingBackwards = true;
 								tiltedtoCamIn3D = true;
 								
-				
 								InvertedDragonTiltedLeft.SetActive (true);
 								InvertedDragonTiltedRight.SetActive (false);
 								InvertedDragonTiltedLeftBackwards.SetActive (false);

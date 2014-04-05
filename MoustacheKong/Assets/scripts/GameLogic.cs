@@ -8,6 +8,7 @@ public class GameLogic : MonoBehaviour
 		public Camera Camera3D;
 		
 		public Quaternion backup2DCameraRotation, backup3DCameraRotation;
+		public Vector3 backup2DCameraPosition;
 	
 		// Toggle gameMode 
 		private bool gameMode3D = false;
@@ -15,13 +16,15 @@ public class GameLogic : MonoBehaviour
 		// Flag that controls change animation 
 		private bool cameraAnimationTo3D = false;
 		private float timeAtStartOf3DAnimation = 0.0f;
-		private float MAX_ANIMATION_TIME = 0.4f;
+		private float MAX_ANIMATION_TIME = 0.45f;
 		private Matrix4x4 ortho, perspective;
 		public float fov = 60f, near = .3f, far = 1000f, orthographicSize = 25.8f;
 		private float aspect;
 		//	private MatrixBlender blender;
 		private float timeAtEntering3DCam = 0.0f;
 		private bool cameraEntering3DAnimation = false;
+		
+		//	private bool initiatedAnimation = false;
 	
 		// Use this for initialization
 		void Start ()
@@ -39,6 +42,7 @@ public class GameLogic : MonoBehaviour
 				//	Camera2D.projectionMatrix = ortho;
 				
 				backup2DCameraRotation = Camera2D.transform.rotation;
+				backup2DCameraPosition = Camera2D.transform.position;
 				//		backup3DCameraRotation = Camera3D.transform.rotation;
 		}
 	
@@ -50,14 +54,26 @@ public class GameLogic : MonoBehaviour
 
 						changeTo3D ();
 						cameraAnimationTo3D = false;
+						//	initiatedAnimation = false;
 						
 						Camera2D.transform.rotation = backup2DCameraRotation;
+						Camera2D.transform.position = backup2DCameraPosition;
 
 						StopAllCoroutines ();
 						StartCoroutine (LerpFromTo (Camera2D.projectionMatrix, ortho, 1f));
 				} else if (cameraAnimationTo3D) {
+						//	initiatedAnimation = true;
 						Quaternion rot = Camera2D.transform.rotation;
-						Camera2D.transform.rotation = new Quaternion (rot.x += 0.002f, rot.y += 0.002f, rot.z -= 0.001f, rot.w);
+						Vector3 pos = Camera2D.transform.position;
+						Camera2D.transform.position = new Vector3 ();
+						/*	if ((Time.time - timeAtStartOf3DAnimation) >= MAX_ANIMATION_TIME / 2) {
+								Camera2D.transform.rotation.SetFromToRotation (Camera2D.transform.position, new Vector3 (0f, 17.39f, -11.8f));
+						} else {
+					*/			
+						// Debug.Log ("x: " + GameObject.FindGameObjectWithTag ("Player").GetComponent <Transform> ().position.x + " y: " + GameObject.FindGameObjectWithTag ("Player").GetComponent <Transform> ().position.y + " z: " + GameObject.FindGameObjectWithTag ("Player").GetComponent <Transform> ().position.z);
+						Camera2D.transform.rotation = new Quaternion (rot.x += 0.002f, rot.y += 0.003f, rot.z -= 0.001f, rot.w);
+						Camera2D.transform.position = new Vector3 (pos.x -= 0.3f, pos.y, pos.z += 0.6f);  
+						//	}
 				}
 				
 //				if (cameraEntering3DAnimation && MaxEnteringCamAnimationTimeReached ()) {
