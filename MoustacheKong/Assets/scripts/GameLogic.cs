@@ -55,7 +55,7 @@ public class GameLogic : MonoBehaviour
 
 						StopAllCoroutines ();
 						StartCoroutine (LerpFromTo (Camera2D.projectionMatrix, ortho, 1f));
-				} else if (cameraAnimationTo3D) {s
+				} else if (cameraAnimationTo3D) {
 						Quaternion rot = Camera2D.transform.rotation;
 						Camera2D.transform.rotation = new Quaternion (rot.x += 0.002f, rot.y += 0.002f, rot.z -= 0.001f, rot.w);
 				}
