@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameLogic : MonoBehaviour
 {
+		public float CAMERA_MIDDLE = 15.0f;
 	
 		public Camera Camera2D;
 		public Camera Camera3D;
@@ -55,24 +56,24 @@ public class GameLogic : MonoBehaviour
 						changeTo3D ();
 						cameraAnimationTo3D = false;
 						//	initiatedAnimation = false;
-						
-						Camera2D.transform.rotation = backup2DCameraRotation;
-						Camera2D.transform.position = backup2DCameraPosition;
 
 						StopAllCoroutines ();
-						StartCoroutine (LerpFromTo (Camera2D.projectionMatrix, ortho, 1f));
 				} else if (cameraAnimationTo3D) {
 						//	initiatedAnimation = true;
 						Quaternion rot = Camera2D.transform.rotation;
 						Vector3 pos = Camera2D.transform.position;
-						Camera2D.transform.position = new Vector3 ();
+						//	Camera2D.transform.position = new Vector3 ();
 						/*	if ((Time.time - timeAtStartOf3DAnimation) >= MAX_ANIMATION_TIME / 2) {
 								Camera2D.transform.rotation.SetFromToRotation (Camera2D.transform.position, new Vector3 (0f, 17.39f, -11.8f));
 						} else {
 					*/			
-						// Debug.Log ("x: " + GameObject.FindGameObjectWithTag ("Player").GetComponent <Transform> ().position.x + " y: " + GameObject.FindGameObjectWithTag ("Player").GetComponent <Transform> ().position.y + " z: " + GameObject.FindGameObjectWithTag ("Player").GetComponent <Transform> ().position.z);
-						Camera2D.transform.rotation = new Quaternion (rot.x += 0.002f, rot.y += 0.003f, rot.z -= 0.001f, rot.w);
-						Camera2D.transform.position = new Vector3 (pos.x -= 0.3f, pos.y, pos.z += 0.6f);  
+						if (GameObject.FindGameObjectWithTag ("Player").transform.position.y <= CAMERA_MIDDLE) {
+								Camera2D.transform.rotation = new Quaternion (rot.x += 0.002f, rot.y += 0.003f, rot.z -= 0.001f, rot.w);
+								Camera2D.transform.position = new Vector3 (pos.x -= 0.3f, pos.y -= 0.2f, pos.z += 0.6f);  
+						} else {
+								Camera2D.transform.rotation = new Quaternion (rot.x += 0.002f, rot.y += 0.003f, rot.z -= 0.001f, rot.w);
+								Camera2D.transform.position = new Vector3 (pos.x -= 0.3f, pos.y += 0.2f, pos.z += 0.6f);  
+						}
 						//	}
 				}
 				
@@ -88,8 +89,8 @@ public class GameLogic : MonoBehaviour
 		void FixedUpdate ()
 		{
 				if (Input.GetKeyDown (KeyCode.C)) {
-						gameMode3D = !gameMode3D;
-						if (gameMode3D) {
+						if (!gameMode3D && !Camera3D.enabled) {
+								gameMode3D = !gameMode3D;
 								Debug.Log ("Animation Started!");
 								if (!cameraAnimationTo3D) {
 										//changeTo3D();
@@ -99,7 +100,8 @@ public class GameLogic : MonoBehaviour
 										StopAllCoroutines ();
 										StartCoroutine (LerpFromTo (Camera2D.projectionMatrix, perspective, 1f));
 								}
-						} else {
+						} else if (Camera3D.enabled) {
+								gameMode3D = !gameMode3D;
 								changeTo2D ();
 						}
 				}
@@ -114,11 +116,19 @@ public class GameLogic : MonoBehaviour
 		{
 				Camera2D.enabled = true;
 				Camera3D.enabled = false;
+				
+				Camera2D.transform.rotation = backup2DCameraRotation;
+				Camera2D.transform.position = backup2DCameraPosition;
+					
+				StopAllCoroutines ();
+				StartCoroutine (LerpFromTo (Camera2D.projectionMatrix, ortho, 0.3f));
+		
 				GameObject.FindGameObjectWithTag ("Player").GetComponent <HeroScript> ().setHero2D (true);
 				GameObject.FindGameObjectWithTag ("Player").GetComponent <HeroScript> ().set2DPositionZ ();
 				//		thirdPersonController.enabled = false;
 				//GameObject.FindGameObjectWithTag ("Player").GetComponent(CharacterController).enabled = false;
 				//	gameObject.GetComponent<CharacterController> ().enabled = false;
+
 		}
 
 		/**
