@@ -15,6 +15,7 @@ public class HeroScript : MonoBehaviour
 		public int gravity = 5;
 		public float jumpSpeed = 10;
 		private bool lastLadderMovementUp = false;
+		private bool charOnLadder = false;
 	
 		// Controlo do personagem
 		public bool tiltedtoCamIn3D = true;
@@ -63,30 +64,36 @@ public class HeroScript : MonoBehaviour
 					
 				Vector3 inputVec;
 				//	timeAtStartOfMovement = Time.time;
-				if (touchingLadder) {
-						inputVec = new Vector3 (0, 0, 0);
-						Debug.Log ("Touching Ladder");
-						if (x == 1) { // Going up
-								lastLadderMovementUp = true;
-								if (!canJump && controller.isGrounded) { // Encontra-se no topo
-										controller.Move ((new Vector3 (0f, 5f, 50f) + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
-								} else { // Encontra-se a meio da escada
-										canJump = false;
-										//	verticalVel += runSpeed;
-										//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
-										controller.Move (new Vector3 (0f, 0.09f, 0f));
-								}
-						} else if (x == -1) { // Going down
-								lastLadderMovementUp = false;
-								if (!controller.isGrounded) {
-										canJump = false;
-										//	verticalVel -= runSpeed;
-										//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
-										controller.Move (new Vector3 (0f, -0.09f, 0f));
-								} else { // Already on Floor
-										canJump = true;
-										touchingLadder = false;
-										Debug.Log ("IS GROUNDED");
+				// Se esta nas escadas trata o input de outra forma
+				if (touchingLadder && x == 1) {
+						if (!charOnLadder && x == 1) { // Se ainda nao estiver a subir e pressionar "Up"
+								charOnLadder = true;
+						} else { // Se ja estiver a subir
+								inputVec = new Vector3 (0, 0, 0);
+								Debug.Log ("Touching Ladder");
+								if (x == 1) { // Going up
+										lastLadderMovementUp = true;
+										if (!canJump && controller.isGrounded) { // Encontra-se no topo
+												controller.Move ((new Vector3 (0f, 5f, 50f) + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+										} else { // Encontra-se a meio da escada
+												canJump = false;
+												//	verticalVel += runSpeed;
+												//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+												controller.Move (new Vector3 (0f, 0.09f, 0f));
+										}
+								} else if (x == -1) { // Going down
+										lastLadderMovementUp = false;
+										if (!controller.isGrounded) {
+												canJump = false;
+												//	verticalVel -= runSpeed;
+												//	controller.Move ((inputVec + Vector3.up * -gravity + new Vector3 (0, verticalVel, 0)) * Time.deltaTime);
+												controller.Move (new Vector3 (0f, -0.09f, 0f));
+										} else { // Already on Floor
+												canJump = true;
+												touchingLadder = false;
+												charOnLadder = false;
+												Debug.Log ("IS GROUNDED");
+										}
 								}
 						}
 				} else {
@@ -182,8 +189,9 @@ public class HeroScript : MonoBehaviour
 	
 		void OnTriggerExit (Collider other)
 		{
-				if (other.tag == "Ladder" || other.tag == "Ladder2D") {
-						touchingLadder = false;
+				touchingLadder = false;
+				if (charOnLadder && (other.tag == "Ladder" || other.tag == "Ladder2D")) {
+						charOnLadder = false;
 						Debug.Log ("EXIT LADDER");
 					
 						if (lastLadderMovementUp) {
@@ -195,9 +203,9 @@ public class HeroScript : MonoBehaviour
 										controller.Move (new Vector3 (50f, 100f, 0f) * Time.deltaTime);
 								} else { // 2D Movement
 										if (facingRight) {
-												controller.Move (new Vector3 (-50f, 100f, 0f) * Time.deltaTime);
-										} else {
 												controller.Move (new Vector3 (50f, 100f, 0f) * Time.deltaTime);
+										} else {
+												controller.Move (new Vector3 (-50f, 100f, 0f) * Time.deltaTime);
 										}
 								}
 						}
