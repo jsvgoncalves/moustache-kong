@@ -36,7 +36,13 @@ public class BarrelLauncher : MonoBehaviour {
 	void launchBarrel(bool type) {
 		//TODO: Include kong animation here.
 		GameObject go = (GameObject) Instantiate (barrel);
-		int lane = Random.Range (0f, 1f) > 0.5f ? 1 : 2;
+		float range = Random.Range (0f, 1.5f);
+		int lane = 1;
+		if (range > 1.0f) {
+			lane = 2;
+		} else if(range > 0.5f) {
+			lane = 3;
+		}
 		go.SendMessage ("setLane", lane);
 	}
 

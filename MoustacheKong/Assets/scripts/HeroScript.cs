@@ -366,4 +366,8 @@ public class HeroScript : MonoBehaviour
 				GameObject.FindGameObjectWithTag ("Player").transform.position = new Vector3 (pos.x, 
 		                                   pos.y, original3DPosition.z);
 		}
+
+	void barrelHit(int hit) {
+		Application.LoadLevel("GUI");
+	}
 }

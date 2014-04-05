@@ -32,11 +32,11 @@ public class BarrelScript : MonoBehaviour {
 		Vector3 newPosition = transform.position;
 		//TODO : Set the appropriate coordinates.
 		if (lane == 1) {
-			newPosition.z = -2;
+			newPosition.z = -3.12f;
 		} else if (lane == 2) {
-			newPosition.z = 3;
+			newPosition.z = 0.25f;
 		} else if (lane == 3) {
-			newPosition.z = 1;
+			newPosition.z = 3.58f;
 		}
 		transform.position = newPosition;
 	}
@@ -61,13 +61,17 @@ public class BarrelScript : MonoBehaviour {
 			}
 
 			// FIXME: Come up with a better way of making the barrels' movement.
-			// Check if the barrel is on the air or rolling through a platform
-			if(hit.distance > 1 ) {
-				velocity.y = gravity.y;
-				stupidFlag = false;
-			} else {
-				y = transform.position.y + 0.5f - hit.distance;
-				stupidFlag = true;
+			// Only adjust if the raycast was on the platforms
+			if(hit.collider.gameObject.tag.Equals ("fwd") || hit.collider.gameObject.tag.Equals ("bck") ) {
+				// Check if the barrel is on the air or rolling through a platform
+				if(hit.distance > 1 ) {
+					velocity.y = gravity.y;
+					stupidFlag = false;
+				} else {
+					// Update the coords to make the barrel on top of the platform
+					y = transform.position.y + 0.7f - hit.distance;
+					stupidFlag = true;
+				}
 			}
 		}
 		
@@ -78,7 +82,7 @@ public class BarrelScript : MonoBehaviour {
 		Vector3 newPos = transform.position + velocity * Time.deltaTime;
 
 		// If the barrel is on the air then let it have velocity;
-		// If it grounded then the position should be the fixed value of the platform position.
+		// If it is grounded then the position should be the fixed value of the platform position.
 		newPos.y = stupidFlag ? y : newPos.y;
 		transform.position = newPos;
 	}
@@ -91,8 +95,8 @@ public class BarrelScript : MonoBehaviour {
 		if (other.tag == "Barrels_Death") {
 			Destroy (gameObject);
 		} else if( other.tag == "Player") {
-			Debug.Log("I hit the player, yo.");
-			//player.SendMessage ("barrelHit", 1.0);
+			GameObject p = GameObject.FindGameObjectWithTag ("Player");
+			p.SendMessage ("barrelHit", 1);
 		}
 //		Debug.Log ("Buh");
 	}
