@@ -7,7 +7,8 @@ using System.Collections;
 	
 public class HeroScript : MonoBehaviour {
 
-	private int score = 0;
+	public int score = 0;
+	public TextMesh scoreObj;
 
 	// Controlo das Ladders
 	private bool touchingLadder = false;
@@ -376,7 +377,12 @@ public class HeroScript : MonoBehaviour {
 		Application.LoadLevel("GUI");
 	}
 
+	/// <summary>
+	/// Jumpeds the barrel.
+	/// </summary>
+	/// <param name="score">Score.</param>
 	void jumpedBarrel(int score) {
 		this.score += score;
+		scoreObj.text = this.score + "";
 	}
 }

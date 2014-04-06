@@ -10,7 +10,7 @@ public class VerticalBarrelScore2D : MonoBehaviour {
 			GameObject p = GameObject.FindGameObjectWithTag ("Player");
 			if(!camera3D) {
 				Debug.Log("Jumped 2D");
-				p.SendMessage ("jumpedBarrel", 2);
+				p.SendMessage ("jumpedBarrel", 100);
 			}
 		}
 	}

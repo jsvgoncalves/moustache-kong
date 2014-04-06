@@ -17,7 +17,7 @@ public class HorizontalBarrel : MonoBehaviour {
 			GameObject p = GameObject.FindGameObjectWithTag ("Player");
 			// If the game mode is 2D then kill the player.
 			if(camera3D) {
-				p.SendMessage ("jumpedBarrel", 1);
+				p.SendMessage ("jumpedBarrel", 10);
 			} else {
 				p.SendMessage ("barrelHit", 1);
 			}
