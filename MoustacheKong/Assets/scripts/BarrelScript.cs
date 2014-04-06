@@ -47,6 +47,9 @@ public class BarrelScript : MonoBehaviour {
 	}
 	
 	void FixedUpdate() {
+		//FIXME: Implement this correctly. Maybe the 3D Model needs to be fixed.
+//		GameObject g = GameObject.Find ("Barril");
+//		g.transform.Rotate(Vector3.forward * Time.deltaTime);
 
 		velocity.y = 0;
 		float y = transform.position.y;
