@@ -5,38 +5,39 @@ using System.Collections;
 [RequireComponent(typeof(CharacterController))]
 [AddComponentMenu("Third Person Player/Third Person Controller")]
 	
-public class HeroScript : MonoBehaviour {
+public class HeroScript : MonoBehaviour
+{
 
-	public int score = 0;
-	public TextMesh scoreObj;
+		public int score = 0;
+		public TextMesh scoreObj;
 
-	// Controlo das Ladders
-	public bool touchingLadder = false;
-	public float rotationDamping = 30f;
-	public float runSpeed = 5f;
-	public int gravity = 5;
-	public float jumpSpeed = 10;
-	private bool lastLadderMovementUp = false;
-	public bool charOnLadder = false;
+		// Controlo das Ladders
+		public bool touchingLadder = false;
+		public float rotationDamping = 30f;
+		public float runSpeed = 5f;
+		public int gravity = 15;
+		public float jumpSpeed = 20;
+		private bool lastLadderMovementUp = false;
+		public bool charOnLadder = false;
 
-	// Controlo do personagem
-	public bool tiltedtoCamIn3D = true;
-	public GameObject Hero2D, Hero2DInverse;
-	public GameObject HeroTiltedRight, HeroTiltedRightBackwards, HeroTiltedLeft, HeroTiltedLeftBackwards, 
-			InvertedDragonTiltedLeft, InvertedDragonTiltedRight, InvertedDragonTiltedLeftBackwards, InvertedDragonTiltedRightBackwards;
-	public bool facingRight = true, facingBackwards = false;
-	private int heroDirection = 0;
-	private Vector3 original3DPosition;
-	// Variaveis que guardam as posicoes (rotacoes) originais do Hero em 3D
-	//	private Quaternion originalTiltedRight, originalTiltedLeft, backwardsTiltedLeft, backwardsTiltedRight;
-	//	private float timeAtStartOfJump = 0.0f, timeAtStartOfMovement = 0.0f;
-	//	private Quaternion originalPosition, alternatePosition;
+		// Controlo do personagem
+		public bool tiltedtoCamIn3D = true;
+		public GameObject Hero2D, Hero2DInverse;
+		public GameObject HeroTiltedRight, HeroTiltedRightBackwards, HeroTiltedLeft, HeroTiltedLeftBackwards, 
+				InvertedDragonTiltedLeft, InvertedDragonTiltedRight, InvertedDragonTiltedLeftBackwards, InvertedDragonTiltedRightBackwards;
+		public bool facingRight = true, facingBackwards = false;
+		private int heroDirection = 0;
+		private Vector3 original3DPosition;
+		// Variaveis que guardam as posicoes (rotacoes) originais do Hero em 3D
+		//	private Quaternion originalTiltedRight, originalTiltedLeft, backwardsTiltedLeft, backwardsTiltedRight;
+		//	private float timeAtStartOfJump = 0.0f, timeAtStartOfMovement = 0.0f;
+		//	private Quaternion originalPosition, alternatePosition;
 
-	bool canJump = false;
-	bool isStop = true;
+		bool canJump = false;
+		bool isStop = true;
 
-	float moveSpeed;
-	float verticalVel;  // Used for continuing momentum while in air
+		float moveSpeed;
+		float verticalVel;  // Used for continuing momentum while in air
 		CharacterController controller;
 	
 		void Start ()
@@ -68,7 +69,7 @@ public class HeroScript : MonoBehaviour {
 				Vector3 inputVec;
 				//	timeAtStartOfMovement = Time.time;
 				// Se esta nas escadas trata o input de outra forma
-				if (touchingLadder) {
+				if (touchingLadder && x == 1) {
 						if (!charOnLadder && x == 1) { // Se ainda nao estiver a subir e pressionar "Up"
 								charOnLadder = true;
 						} else { // Se ja estiver a subir
@@ -170,7 +171,7 @@ public class HeroScript : MonoBehaviour {
 						}
 				} else {
 						// Apply gravity to our velocity to diminish it over time
-						verticalVel += Physics.gravity.y * Time.deltaTime;
+						verticalVel += Physics.gravity.y * Time.deltaTime * 1.1f;
 				}
 	
 				// Actually move the character
@@ -199,8 +200,8 @@ public class HeroScript : MonoBehaviour {
 					
 						if (lastLadderMovementUp) {
 								if (GameObject.FindGameObjectWithTag ("Player").
-							    GetComponent<GameLogic> ().Camera3D.enabled && GameObject.FindGameObjectWithTag ("Player").
-							   					GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == -1) {
+							    	GetComponent<GameLogic> ().Camera3D.enabled && GameObject.FindGameObjectWithTag ("Player").
+							   					GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == 1) {
 										controller.Move (new Vector3 (-50f, 100f, 0f) * Time.deltaTime);
 								} else if (GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 										controller.Move (new Vector3 (50f, 100f, 0f) * Time.deltaTime);
@@ -373,16 +374,18 @@ public class HeroScript : MonoBehaviour {
 		                                   pos.y, original3DPosition.z);
 		}
 
-	void barrelHit(int hit) {
-		Application.LoadLevel("GUI");
-	}
+		void barrelHit (int hit)
+		{
+				Application.LoadLevel ("GUI");
+		}
 
-	/// <summary>
-	/// Jumpeds the barrel.
-	/// </summary>
-	/// <param name="score">Score.</param>
-	void jumpedBarrel(int score) {
-		this.score += score;
-		scoreObj.text = this.score + "";
-	}
+		/// <summary>
+		/// Jumpeds the barrel.
+		/// </summary>
+		/// <param name="score">Score.</param>
+		void jumpedBarrel (int score)
+		{
+				this.score += score;
+				scoreObj.text = this.score + "";
+		}
 }
