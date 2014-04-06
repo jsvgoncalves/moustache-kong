@@ -184,6 +184,7 @@ public class HeroScript : MonoBehaviour
 	
 		void OnTriggerEnter (Collider other)
 		{
+		Debug.Log (other.tag);
 				if (other.tag == "Ladder" && GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
