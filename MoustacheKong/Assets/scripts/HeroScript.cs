@@ -188,6 +188,8 @@ public class HeroScript : MonoBehaviour
 						touchingLadder = true;
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
+				} else if (other.tag == "EndPlatform") {
+					Application.LoadLevel ("GUI");
 				}
 		}
 	
