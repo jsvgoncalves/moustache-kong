@@ -11,13 +11,13 @@ public class HeroScript : MonoBehaviour {
 	public TextMesh scoreObj;
 
 	// Controlo das Ladders
-	private bool touchingLadder = false;
+	public bool touchingLadder = false;
 	public float rotationDamping = 30f;
 	public float runSpeed = 5f;
 	public int gravity = 5;
 	public float jumpSpeed = 10;
 	private bool lastLadderMovementUp = false;
-	private bool charOnLadder = false;
+	public bool charOnLadder = false;
 
 	// Controlo do personagem
 	public bool tiltedtoCamIn3D = true;
@@ -68,7 +68,7 @@ public class HeroScript : MonoBehaviour {
 				Vector3 inputVec;
 				//	timeAtStartOfMovement = Time.time;
 				// Se esta nas escadas trata o input de outra forma
-				if (touchingLadder && x == 1) {
+				if (touchingLadder) {
 						if (!charOnLadder && x == 1) { // Se ainda nao estiver a subir e pressionar "Up"
 								charOnLadder = true;
 						} else { // Se ja estiver a subir
