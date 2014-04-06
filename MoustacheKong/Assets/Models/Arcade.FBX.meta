@@ -60,6 +60,17 @@ ModelImporter:
     4300016: Button_02
     4300018: Plane001
     4300020: Plane002
+    6400000: Box001
+    6400002: Button_01
+    6400004: Button_02
+    6400006: Controlller Screen
+    6400008: Joy_Stck_Handle
+    6400010: Joy_Stck_Top
+    6400012: Main Image
+    6400014: Plane001
+    6400016: Plane002
+    6400018: Screen
+    6400020: Top Image
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -81,7 +92,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: .00999999978
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
