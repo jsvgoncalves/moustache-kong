@@ -31,7 +31,8 @@ public class HeroScript : MonoBehaviour {
 	//	private float timeAtStartOfJump = 0.0f, timeAtStartOfMovement = 0.0f;
 	//	private Quaternion originalPosition, alternatePosition;
 
-	bool canJump, isJumping = false;
+	bool canJump = false;
+	bool isStop = true;
 
 	float moveSpeed;
 	float verticalVel;  // Used for continuing momentum while in air
@@ -349,10 +350,13 @@ public class HeroScript : MonoBehaviour {
 		void checkRunningAnimation (float z, float x)
 		{
 				if (z == 1 || z == -1 || x == 1 || x == -1) {
+						isStop = false;
 						if (!animation.IsPlaying ("run"))
 								animation.Play ("run");
-				} else
+				} else {
 						animation.Play ("idle");
+						isStop = true;
+				}
 		}
 		
 		public void set2DPositionZ ()
