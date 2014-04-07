@@ -204,8 +204,8 @@ public class HeroScript : MonoBehaviour
 		}
 
 		IEnumerator playSoundThenLoad(int sound) {
-			if (!playingGameOver  || !playingGameWin) {
-					if(sound == 1) {
+			if (!playingGameOver  && !playingGameWin) {
+					if(sound == 0) {
 						AudioSource.PlayClipAtPoint (gameWinClip, transform.position, 1.0f);
 						playingGameWin = true;
 					}
