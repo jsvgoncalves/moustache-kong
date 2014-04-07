@@ -36,6 +36,8 @@ public class HeroScript : MonoBehaviour
 
 		bool canJump = false;
 		bool isStop = true;
+		public AudioClip jumpClip;
+		public AudioClip gameOver;
 
 		float moveSpeed;
 		float verticalVel;  // Used for continuing momentum while in air
@@ -167,6 +169,7 @@ public class HeroScript : MonoBehaviour
 						if (Input.GetKeyDown ("space")) {
 								//	timeAtStartOfJump = Time.time; // Para gerir se o salto foi posterior a movimento
 								// Apply the current movement to launch velocity
+								AudioSource.PlayClipAtPoint (jumpClip, transform.position);
 								verticalVel = jumpSpeed;
 								canJump = false;
 						}
@@ -191,10 +194,11 @@ public class HeroScript : MonoBehaviour
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "EndPlatform") {
+					AudioSource.PlayClipAtPoint (gameOver, transform.position);
 					Application.LoadLevel ("GUI");
 				}
 		}
-	
+
 		void OnTriggerExit (Collider other)
 		{
 				touchingLadder = false;
