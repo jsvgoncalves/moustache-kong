@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/AnimatedTexturesUV.js">
     <Files>
       <File FileName="Assets/scripts/HeroScript.cs" Line="197" Column="65" />
       <File FileName="Assets/scripts/GameLogic.cs" Line="1" Column="1" />
-      <File FileName="Assets/scripts/GizmoShortcuts.cs" Line="2" Column="1" />
-      <File FileName="Assets/scripts/AnimatedTexturesUV.js" Line="51" Column="5" />
+      <File FileName="Assets/scripts/GizmoShortcuts.cs" Line="1" Column="1" />
+      <File FileName="Assets/scripts/AnimatedTexturesUV.js" Line="57" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
