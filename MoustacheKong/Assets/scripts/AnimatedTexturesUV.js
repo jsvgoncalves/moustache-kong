@@ -16,7 +16,7 @@ function Start() {
 
 function Update () {
  
- 	if (!player.GetComponent("HeroScript").canJump /*&& controller.isGrounded*/) {
+ 	if (!player.GetComponent("HeroScript").canJump) {
  		renderer.material.mainTexture = jumpTexture;
  		renderer.material.mainTextureOffset = Vector2(0, 0);
  		renderer.material.mainTextureScale = Vector2(1, 1);
@@ -29,29 +29,29 @@ function Update () {
  		running = false;
  	}
  	else {
- 		if (!running) {
+ 		// Calculate index
+		var index : int = Time.time * framesPerSecond;
+		// repeat when exhausting all frames
+		index = index % (uvAnimationTileX * uvAnimationTileY);
+ 		
+		// Size of every tile
+		var size = Vector2 (1.0 / uvAnimationTileX, 1.0 / uvAnimationTileY);
+	 
+		// split into horizontal and vertical index
+		var uIndex = index % uvAnimationTileX;
+		var vIndex = index / uvAnimationTileX;
+	 
+		// build offset
+		// v coordinate is the bottom of the image in opengl so we need to invert.
+		var offset = Vector2 (uIndex * size.x, 1.0 - size.y - vIndex * size.y);
+	 	
+	 	if (!running) {
  			renderer.material.mainTexture = runTexture;
  			running = true;
  		}
- 		else {
-	 		// Calculate index
-			var index : int = Time.time * framesPerSecond;
-			// repeat when exhausting all frames
-			index = index % (uvAnimationTileX * uvAnimationTileY);
-	 		
-			// Size of every tile
-			var size = Vector2 (1.0 / uvAnimationTileX, 1.0 / uvAnimationTileY);
-		 
-			// split into horizontal and vertical index
-			var uIndex = index % uvAnimationTileX;
-			var vIndex = index / uvAnimationTileX;
-		 
-			// build offset
-			// v coordinate is the bottom of the image in opengl so we need to invert.
-			var offset = Vector2 (uIndex * size.x, 1.0 - size.y - vIndex * size.y);
-		 
-			renderer.material.SetTextureOffset ("_MainTex", offset);
-			renderer.material.SetTextureScale ("_MainTex", size);
-		}
+	 	
+		renderer.material.SetTextureOffset ("_MainTex", offset);
+		renderer.material.SetTextureScale ("_MainTex", size);
+		
 	}
 }
