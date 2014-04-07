@@ -40,6 +40,8 @@ public class BarrelLauncher : MonoBehaviour
 		{
 				//TODO: Include kong animation here.
 				GameObject go = (GameObject)Instantiate (barrel);
+				go.transform.FindChild ("Barril").transform.tag = "BarrelThing";
+		
 				float range = Random.Range (0f, 1.5f);
 				int lane = 1;
 				if (range > 1.0f) {

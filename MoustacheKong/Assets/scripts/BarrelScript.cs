@@ -53,8 +53,9 @@ public class BarrelScript : MonoBehaviour
 		void FixedUpdate ()
 		{
 				//FIXME: Implement this correctly. Maybe the 3D Model needs to be fixed.
-				GameObject g = GameObject.Find ("Barril");
-				g.transform.RotateAround(g.transform.parent.position, Vector3.forward, -dir*3*90*Time.deltaTime);
+				GameObject[] g = GameObject.FindGameObjectsWithTag ("BarrelThing");
+				for (int i = 0; i < g.Length; i++)
+						g [i].transform.RotateAround (g [i].transform.parent.position, Vector3.forward, -dir * 600 * Time.deltaTime);
 
 				velocity.y = 0;
 				float y = transform.position.y;
