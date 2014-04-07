@@ -37,7 +37,12 @@ public class HeroScript : MonoBehaviour
 		bool canJump = false;
 		bool isStop = true;
 		public AudioClip jumpClip;
-		public AudioClip gameOver;
+		public AudioClip gameOverClip;
+		private bool playingGameOver = false;
+		private bool playingGameWin = false;
+		public AudioClip ouchClip;
+		public AudioClip scoreClip;
+		public AudioClip gameWinClip;
 
 		float moveSpeed;
 		float verticalVel;  // Used for continuing momentum while in air
@@ -47,7 +52,7 @@ public class HeroScript : MonoBehaviour
 		{
 				controller = (CharacterController)GetComponent (typeof(CharacterController));
 				original3DPosition = GameObject.FindGameObjectWithTag ("Player").transform.position;
-	
+
 				/*	originalTiltedRight = HeroTiltedRight.transform.rotation;
 				originalTiltedLeft = HeroTiltedLeft.transform.rotation;
 				backwardsTiltedLeft = originalTiltedRight;
@@ -194,9 +199,31 @@ public class HeroScript : MonoBehaviour
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "EndPlatform") {
+<<<<<<< HEAD
 						AudioSource.PlayClipAtPoint (gameOver, transform.position);
 						Application.LoadLevel ("GUI");
+=======
+						StartCoroutine(playSoundThenLoad(1));
+>>>>>>> 1091dff63341bb4487eb012309b33a84aca46045
 				}
+		}
+
+		IEnumerator playSoundThenLoad(int sound) {
+			if (!playingGameOver  && !playingGameWin) {
+					if(sound == 0) {
+						AudioSource.PlayClipAtPoint (gameWinClip, transform.position, 1.0f);
+						playingGameWin = true;
+					}
+					else {
+						AudioSource.PlayClipAtPoint (gameOverClip, transform.position, 1.0f);
+						playingGameOver = true;
+					}
+				}
+				if (sound == 1)
+					yield return new WaitForSeconds (gameWinClip.length + 1);
+				else
+					yield return new WaitForSeconds (gameOverClip.length + 1);
+				Application.LoadLevel ("GUI");
 		}
 
 		void OnTriggerExit (Collider other)
@@ -382,6 +409,7 @@ public class HeroScript : MonoBehaviour
 		                                   pos.y, original3DPosition.z);
 		}
 
+<<<<<<< HEAD
 		void barrelHit (int hit)
 		{
 				life -= 1;
@@ -393,6 +421,20 @@ public class HeroScript : MonoBehaviour
 				} else if (life == 2) {
 						GameObject.Find ("Life1").SetActive (false);
 						//FIXME: Reload level with less life.
+=======
+		void barrelHit (int hit) {
+			if(life > 1)
+				AudioSource.PlayClipAtPoint (ouchClip, transform.position, 1.0f);
+			life -= 1;
+			Debug.Log ("life: " + life);
+			if (life <= 0) {
+				StartCoroutine(playSoundThenLoad(0));
+			} else if(life == 1) {
+				GameObject.Find("Life2").SetActive(false);
+			} else if(life == 2) {
+				GameObject.Find("Life1").SetActive(false);
+				//FIXME: Reload level with less life.
+>>>>>>> 1091dff63341bb4487eb012309b33a84aca46045
 //				Application.LoadLevel("Level1");
 				} else if (life == 3) {
 						GameObject.Find ("Life1").SetActive (true);
@@ -408,6 +450,7 @@ public class HeroScript : MonoBehaviour
 		/// <param name="score">Score.</param>
 		void jumpedBarrel (int score)
 		{
+				AudioSource.PlayClipAtPoint (scoreClip, transform.position, 1.0f);
 				this.score += score;
 				scoreObj.text = this.score + "";
 		}
