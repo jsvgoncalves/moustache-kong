@@ -193,31 +193,31 @@ public class HeroScript : MonoBehaviour
 	
 		void OnTriggerEnter (Collider other)
 		{
-		Debug.Log (other.tag);
+				Debug.Log (other.tag);
 				if (other.tag == "Ladder" && GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "EndPlatform") {
-						StartCoroutine(playSoundThenLoad(1));
+						StartCoroutine (playSoundThenLoad (1));
 				}
 		}
 
-		IEnumerator playSoundThenLoad(int sound) {
-			if (!playingGameOver  && !playingGameWin) {
-					if(sound == 0) {
-						AudioSource.PlayClipAtPoint (gameWinClip, transform.position, 1.0f);
-						playingGameWin = true;
-					}
-					else {
-						AudioSource.PlayClipAtPoint (gameOverClip, transform.position, 1.0f);
-						playingGameOver = true;
-					}
+		IEnumerator playSoundThenLoad (int sound)
+		{
+				if (!playingGameOver && !playingGameWin) {
+						if (sound == 0) {
+								AudioSource.PlayClipAtPoint (gameWinClip, transform.position, 1.0f);
+								playingGameWin = true;
+						} else {
+								AudioSource.PlayClipAtPoint (gameOverClip, transform.position, 1.0f);
+								playingGameOver = true;
+						}
 				}
 				if (sound == 1)
-					yield return new WaitForSeconds (gameWinClip.length + 1);
+						yield return new WaitForSeconds (gameWinClip.length + 1);
 				else
-					yield return new WaitForSeconds (gameOverClip.length + 1);
+						yield return new WaitForSeconds (gameOverClip.length + 1);
 				Application.LoadLevel ("GUI");
 		}
 
@@ -404,25 +404,40 @@ public class HeroScript : MonoBehaviour
 		                                   pos.y, original3DPosition.z);
 		}
 
-		void barrelHit (int hit) {
-			if(life > 1)
-				AudioSource.PlayClipAtPoint (ouchClip, transform.position, 1.0f);
-			life -= 1;
-			Debug.Log ("life: " + life);
-			if (life <= 0) {
-				StartCoroutine(playSoundThenLoad(0));
-			} else if(life == 1) {
-				GameObject.Find("Life2").SetActive(false);
-			} else if(life == 2) {
-				GameObject.Find("Life1").SetActive(false);
-				//FIXME: Reload level with less life.
+		void barrelHit (int hit)
+		{
+				if (GameObject.FindGameObjectWithTag ("Player").
+		    GetComponent<GameLogic> ().Camera3D.enabled && GameObject.FindGameObjectWithTag ("Player").
+		    GetComponent<GameLogic> ().Camera3D.GetComponent<PlayerTracker> ().dir == 1) {
+						controller.Move (new Vector3 (-10f, 80f, 0f) * Time.deltaTime);
+				} else if (GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
+						controller.Move (new Vector3 (10f, 80f, 0f) * Time.deltaTime);
+				} else { // 2D Movement
+						if (facingRight) {
+								controller.Move (new Vector3 (10f, 80f, 0f) * Time.deltaTime);
+						} else {
+								controller.Move (new Vector3 (-10f, 80f, 0f) * Time.deltaTime);
+						}
+				}
+		
+				if (life > 1)
+						AudioSource.PlayClipAtPoint (ouchClip, transform.position, 1.0f);
+				life -= 1;
+				Debug.Log ("life: " + life);
+				if (life <= 0) {
+						StartCoroutine (playSoundThenLoad (0));
+				} else if (life == 1) {
+						GameObject.Find ("Life2").SetActive (false);
+				} else if (life == 2) {
+						GameObject.Find ("Life1").SetActive (false);
+						//FIXME: Reload level with less life.
 //				Application.LoadLevel("Level1");
-			} else if(life == 3) {
-				GameObject.Find("Life1").SetActive(true);
-				GameObject.Find("Life2").SetActive(true);
-				GameObject.Find("Life3").SetActive(true);
+				} else if (life == 3) {
+						GameObject.Find ("Life1").SetActive (true);
+						GameObject.Find ("Life2").SetActive (true);
+						GameObject.Find ("Life3").SetActive (true);
 				
-			}
+				}
 		}
 
 		/// <summary>
