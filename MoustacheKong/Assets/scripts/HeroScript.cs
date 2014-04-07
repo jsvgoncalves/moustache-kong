@@ -188,14 +188,14 @@ public class HeroScript : MonoBehaviour
 	
 		void OnTriggerEnter (Collider other)
 		{
-		Debug.Log (other.tag);
+				Debug.Log (other.tag);
 				if (other.tag == "Ladder" && GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "EndPlatform") {
-					AudioSource.PlayClipAtPoint (gameOver, transform.position);
-					Application.LoadLevel ("GUI");
+						AudioSource.PlayClipAtPoint (gameOver, transform.position);
+						Application.LoadLevel ("GUI");
 				}
 		}
 
@@ -382,23 +382,24 @@ public class HeroScript : MonoBehaviour
 		                                   pos.y, original3DPosition.z);
 		}
 
-		void barrelHit (int hit) {
-			life -= 1;
-			Debug.Log ("life: " + life);
-			if (life <= 0) {
-				Application.LoadLevel ("GUI");
-			} else if(life == 1) {
-				GameObject.Find("Life2").SetActive(false);
-			} else if(life == 2) {
-				GameObject.Find("Life1").SetActive(false);
-				//FIXME: Reload level with less life.
+		void barrelHit (int hit)
+		{
+				life -= 1;
+				Debug.Log ("life: " + life);
+				if (life <= 0) {
+						Application.LoadLevel ("GUI");
+				} else if (life == 1) {
+						GameObject.Find ("Life2").SetActive (false);
+				} else if (life == 2) {
+						GameObject.Find ("Life1").SetActive (false);
+						//FIXME: Reload level with less life.
 //				Application.LoadLevel("Level1");
-			} else if(life == 3) {
-				GameObject.Find("Life1").SetActive(true);
-				GameObject.Find("Life2").SetActive(true);
-				GameObject.Find("Life3").SetActive(true);
+				} else if (life == 3) {
+						GameObject.Find ("Life1").SetActive (true);
+						GameObject.Find ("Life2").SetActive (true);
+						GameObject.Find ("Life3").SetActive (true);
 				
-			}
+				}
 		}
 
 		/// <summary>
