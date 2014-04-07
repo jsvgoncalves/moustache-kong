@@ -43,6 +43,8 @@ public class HeroScript : MonoBehaviour
 		public AudioClip ouchClip;
 		public AudioClip scoreClip;
 		public AudioClip gameWinClip;
+		public GameObject gameOverGUI;
+		public GameObject gameWinGUI;
 
 		float moveSpeed;
 		float verticalVel;  // Used for continuing momentum while in air
@@ -199,6 +201,7 @@ public class HeroScript : MonoBehaviour
 				} else if (other.tag == "Ladder2D" && !GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled) {
 						touchingLadder = true;
 				} else if (other.tag == "EndPlatform") {
+						gameWinGUI.SetActive(true);
 						StartCoroutine (playSoundThenLoad (1));
 				}
 		}
@@ -206,7 +209,7 @@ public class HeroScript : MonoBehaviour
 		IEnumerator playSoundThenLoad (int sound)
 		{
 				if (!playingGameOver && !playingGameWin) {
-						if (sound == 0) {
+						if (sound == 1) {
 								AudioSource.PlayClipAtPoint (gameWinClip, transform.position, 1.0f);
 								playingGameWin = true;
 						} else {
@@ -425,6 +428,7 @@ public class HeroScript : MonoBehaviour
 				life -= 1;
 				Debug.Log ("life: " + life);
 				if (life <= 0) {
+						gameOverGUI.SetActive(true);
 						StartCoroutine (playSoundThenLoad (0));
 				} else if (life == 1) {
 						GameObject.Find ("Life2").SetActive (false);
