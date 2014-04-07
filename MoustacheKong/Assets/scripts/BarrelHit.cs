@@ -14,7 +14,10 @@ public class BarrelHit : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if( other.tag == "Player") {
 			GameObject p = GameObject.FindGameObjectWithTag ("Player");
-			p.SendMessage ("barrelHit", 1);
+			bool camera3D = GameObject.FindGameObjectWithTag ("Player").GetComponent<GameLogic> ().Camera3D.enabled;
+			if(camera3D) {
+				p.SendMessage ("barrelHit", 1);
+			}
 		}
 	}
 }

@@ -384,6 +384,7 @@ public class HeroScript : MonoBehaviour
 
 		void barrelHit (int hit) {
 			life -= 1;
+			Debug.Log ("life: " + life);
 			if (life <= 0) {
 				Application.LoadLevel ("GUI");
 			} else if(life == 1) {
